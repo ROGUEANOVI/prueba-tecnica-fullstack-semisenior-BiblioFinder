@@ -1,6 +1,13 @@
+using BiblioFinder.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<BiblioFinderDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly(typeof(BiblioFinderDbContext).Assembly.FullName)));
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

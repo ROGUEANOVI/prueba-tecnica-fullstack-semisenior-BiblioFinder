@@ -1,0 +1,12 @@
+namespace BiblioFinder.Domain.Entities
+{
+    public class SearchHistory
+    {
+        public int Id { get; set; }
+        public required string Author { get; set; }
+        public required string Title { get; set; }
+        public int? PublicationYear { get; set; }
+        public string? Editorial { get; set; }
+        public DateTime QueryDate { get; set; }
+    }
+}
