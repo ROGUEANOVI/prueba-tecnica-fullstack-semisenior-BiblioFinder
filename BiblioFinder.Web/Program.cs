@@ -1,4 +1,6 @@
+using BiblioFinder.Application.Services;
 using BiblioFinder.Infrastructure.Persistence;
+using BiblioFinder.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BiblioFinderDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly(typeof(BiblioFinderDbContext).Assembly.FullName)));
+
+builder.Services.AddHttpClient<BookService, OpenLibraryBookService>();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllersWithViews();
 

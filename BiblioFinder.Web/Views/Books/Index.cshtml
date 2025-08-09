@@ -1,0 +1,98 @@
+﻿@model IEnumerable<BiblioFinder.Web.ViewModels.BookViewModel>
+
+@{
+    ViewData["Title"] = "Búsqueda de Libros";
+    var searchAttempted = ViewContext.HttpContext.Request.Method == "POST";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <header class="mb-5 text-center">
+                <h1 class="display-4 fw-bold">BiblioFinder</h1>
+                <p class="lead text-muted">Tu radar personal para descubrir libros por autor.</p>
+            </header>
+
+            <section id="search-section" class="mb-5">
+                <form id="search-form" asp-controller="Books" asp-action="Search" method="post">
+                    <div class="input-group shadow-sm">
+                        <input type="text" name="author" class="form-control" placeholder="Ingresa el nombre del autor" value="@ViewData["SearchedAuthor"]" aria-label="Nombre del autor" required />
+                        <button class="btn btn-primary d-flex align-items-center" type="submit" id="search-button">
+                            <span id="button-icon"><i class="bi bi-search"></i></span>
+                            <span id="button-text" class="ms-2">Buscar</span>
+                            <span id="button-spinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="results-section">
+                @if (Model != null && Model.Any())
+                {
+                    <h4 class="mb-4 text-center">Resultados para: "<em>@ViewData["SearchedAuthor"]"</em></h4>
+                    <div class="table-responsive rounded shadow-sm">
+                        <table class="table-striped table-hover mb-0 table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Título</th>
+                                    <th scope="col">Año de Publicación</th>
+                                    <th scope="col">Editorial(es)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var book in Model)
+                                {
+                                    <tr>
+                                        <td>@book.Title</td>
+                                        <td>@book.PublicationYear</td>
+                                        <td>@book.Publishers</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else if (searchAttempted)
+                {
+                    <div class="bg-light rounded border p-5 text-center">
+                        <i class="bi bi-journal-x" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">Sin resultados</h4>
+                        <p class="text-muted">No se encontraron libros para el autor que buscaste. ¿Por qué no intentas con otro?</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="bg-light rounded border p-5 text-center">
+                        <i class="bi bi-book-half" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">Comienza tu búsqueda</h4>
+                        <p class="text-muted">Ingresa el nombre de un autor en la barra de arriba para descubrir sus obras.</p>
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchForm = document.getElementById('search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function (e) {
+                    // Prevenir el doble click
+                    const searchButton = document.getElementById('search-button');
+                    if (searchButton.disabled) {
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // Mostrar spinner y deshabilitar botón
+                    searchButton.disabled = true;
+                    document.getElementById('button-icon').classList.add('d-none');
+                    document.getElementById('button-text').textContent = 'Buscando...';
+                    document.getElementById('button-spinner').classList.remove('d-none');
+                });
+            }
+        });
+    </script>
+}
