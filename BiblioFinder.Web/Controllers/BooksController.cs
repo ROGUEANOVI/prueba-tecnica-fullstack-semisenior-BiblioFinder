@@ -23,8 +23,10 @@ namespace BiblioFinder.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(string author)
+        public async Task<IActionResult> Search(string? author)
         {
+            author = author?.Trim();
+
             ViewData["SearchedAuthor"] = author;
 
             if (string.IsNullOrWhiteSpace(author))

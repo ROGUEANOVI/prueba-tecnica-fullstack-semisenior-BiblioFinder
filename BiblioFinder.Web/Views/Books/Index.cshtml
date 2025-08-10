@@ -16,7 +16,20 @@
             <section id="search-section" class="mb-5">
                 <form id="search-form" asp-controller="Books" asp-action="Search" method="post">
                     <div class="input-group shadow-sm">
-                        <input type="text" name="author" class="form-control" placeholder="Ingresa el nombre del autor" value="@ViewData["SearchedAuthor"]" aria-label="Nombre del autor" required />
+                        <input 
+                            type="text" 
+                            name="author" 
+                            class="form-control" 
+                            placeholder="Ingresa el nombre del autor" 
+                            value="@ViewData["SearchedAuthor"]" 
+                            aria-label="Nombre del autor"
+                            data-bs-toggle="popover"
+                            data-bs-placement="bottom"
+                            data-bs-trigger="manual"
+                            data-bs-html="true"
+                            data-bs-content="<i class='bi bi-exclamation-triangle-fill text-warning me-2'></i>Por favor, ingresa un autor valido."
+                            required 
+                        />
                         <button class="btn btn-primary d-flex align-items-center" type="submit" id="search-button">
                             <span id="button-icon"><i class="bi bi-search"></i></span>
                             <span id="button-text" class="ms-2">Buscar</span>
@@ -83,22 +96,42 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const searchForm = document.getElementById('search-form');
+            const authorInput = document.querySelector('input[name="author"]');
+            const popover = new bootstrap.Popover(authorInput);
+
             if (searchForm) {
                 searchForm.addEventListener('submit', function (e) {
-                    // Prevenir el doble click
+
+                    if (authorInput.value.trim() === '') {
+                        e.preventDefault(); 
+
+                        authorInput.classList.add('is-invalid');
+                        popover.show();
+
+                        return; 
+                    }
+
+                    
+
                     const searchButton = document.getElementById('search-button');
                     if (searchButton.disabled) {
                         e.preventDefault();
                         return;
                     }
 
-                    // Mostrar spinner y deshabilitar botón
                     searchButton.disabled = true;
                     document.getElementById('button-icon').classList.add('d-none');
                     document.getElementById('button-text').textContent = 'Buscando...';
                     document.getElementById('button-spinner').classList.remove('d-none');
                 });
             }
+
+            authorInput.addEventListener('input', function() {
+                if (authorInput.value.trim() !== '') {
+                    popover.hide();
+                    authorInput.classList.remove('is-invalid');
+                }
+            });
         });
 
         $(document).ready(function () {
