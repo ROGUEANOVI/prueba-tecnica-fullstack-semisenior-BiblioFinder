@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiblioFinder.Infrastructure.Migrations
 {
     [DbContext(typeof(BiblioFinderDbContext))]
-    [Migration("20250809152244_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250810150755_CreateStoredProceduresQueriesSearchHistory")]
+    partial class CreateStoredProceduresQueriesSearchHistory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,18 +40,20 @@ namespace BiblioFinder.Infrastructure.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("Autor");
 
-                    b.Property<string>("Editorial")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Editorial");
-
                     b.Property<int?>("PublicationYear")
                         .HasColumnType("int")
                         .HasColumnName("AnioPublicacion");
 
+                    b.Property<string>("Publisher")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Editorial");
+
                     b.Property<DateTime>("QueryDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasColumnName("FechaConsulta");
+                        .HasColumnName("FechaConsulta")
+                        .HasDefaultValueSql("getutcdate()");
 
                     b.Property<string>("Title")
                         .IsRequired()

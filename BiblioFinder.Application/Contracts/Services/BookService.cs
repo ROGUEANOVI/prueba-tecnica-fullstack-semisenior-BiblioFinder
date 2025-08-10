@@ -1,6 +1,6 @@
 using BiblioFinder.Application.Dtos;
 
-namespace BiblioFinder.Application.Services
+namespace BiblioFinder.Application.Contracts.Services
 {
     public interface BookService
     {

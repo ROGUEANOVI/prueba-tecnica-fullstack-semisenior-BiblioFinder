@@ -11,6 +11,6 @@ namespace BiblioFinder.Application.Dtos
         public int? PublicationYear { get; set; }
 
         [JsonPropertyName("publisher")]
-        public List<string>? Publishers { get; set; }
+        public List<string> Publisher { get; set; } = [];
     }
 }

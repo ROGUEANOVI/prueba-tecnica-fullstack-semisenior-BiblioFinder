@@ -1,5 +1,8 @@
-using BiblioFinder.Application.Services;
+using BiblioFinder.Application.Contracts.Repositories;
+using BiblioFinder.Application.Contracts.Services;
+using BiblioFinder.Application.UseCases;
 using BiblioFinder.Infrastructure.Persistence;
+using BiblioFinder.Infrastructure.Repositories;
 using BiblioFinder.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +16,12 @@ builder.Services.AddDbContext<BiblioFinderDbContext>(options =>
 builder.Services.AddHttpClient<BookService, OpenLibraryBookService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<SearchHistoryRepository, EfSearchHistoryRepository>();
+
+builder.Services.AddScoped<SearchBooksUseCase>();
+
+builder.Services.AddScoped<SearchHistoryUseCase>();
 
 builder.Services.AddControllersWithViews();
 

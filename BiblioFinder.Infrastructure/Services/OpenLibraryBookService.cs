@@ -1,5 +1,5 @@
+using BiblioFinder.Application.Contracts.Services;
 using BiblioFinder.Application.Dtos;
-using BiblioFinder.Application.Services;
 using System.Net.Http.Json;
 
 namespace BiblioFinder.Infrastructure.Services

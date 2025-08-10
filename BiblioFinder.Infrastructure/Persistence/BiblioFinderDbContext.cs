@@ -21,8 +21,8 @@ namespace BiblioFinder.Infrastructure.Persistence
                 entity.Property(e => e.Author).HasColumnName("Autor").IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Title).HasColumnName("Titulo").IsRequired().HasMaxLength(255);
                 entity.Property(e => e.PublicationYear).HasColumnName("AnioPublicacion");
-                entity.Property(e => e.Editorial).HasColumnName("Editorial").HasMaxLength(255);
-                entity.Property(e => e.QueryDate).HasColumnName("FechaConsulta");
+                entity.Property(e => e.Publisher).HasColumnName("Editorial").HasMaxLength(255);
+                entity.Property(e => e.QueryDate).HasColumnName("FechaConsulta").HasDefaultValueSql("getutcdate()");
             });
 
             base.OnModelCreating(modelBuilder);

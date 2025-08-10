@@ -1,6 +1,6 @@
-namespace BiblioFinder.Domain.Entities
+﻿namespace BiblioFinder.Application.Dtos
 {
-    public class SearchHistory
+    public class SearchHistoryDto
     {
         public int Id { get; set; }
         public required string Author { get; set; }

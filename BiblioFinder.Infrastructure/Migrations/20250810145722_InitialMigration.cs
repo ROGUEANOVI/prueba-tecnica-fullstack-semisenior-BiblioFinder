@@ -21,7 +21,7 @@ namespace BiblioFinder.Infrastructure.Migrations
                     Titulo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     AnioPublicacion = table.Column<int>(type: "int", nullable: true),
                     Editorial = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    FechaConsulta = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaConsulta = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "getutcdate()")
                 },
                 constraints: table =>
                 {
